@@ -1,6 +1,7 @@
 
 package com.group7.artshare.entity
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import lombok.Data
 import java.util.*
 import javax.persistence.*

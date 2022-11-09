@@ -19,7 +19,25 @@ class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     var createdAt: Date = Calendar.getInstance().time
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "creator")
     var author : RegisteredUser? = null
+
+    @ManyToOne(cascade = [CascadeType.PERSIST])
+    @JoinColumn(name="artItemId")
+    var artItem : ArtItem? = null
+
+    @ManyToOne(cascade = [CascadeType.PERSIST])
+    @JoinColumn(name="onlineGalleryId")
+    var onlineGallery : OnlineGallery? = null
+
+    @ManyToOne(cascade = [CascadeType.PERSIST])
+    @JoinColumn(name="discussionPostId")
+    var discussionPost : DiscussionPost? = null
+
+    @ManyToOne
+    @JoinColumn(name="physicalExhibitionId")
+    var physicalExhibition : PhysicalExhibition? = null
+
+
 }

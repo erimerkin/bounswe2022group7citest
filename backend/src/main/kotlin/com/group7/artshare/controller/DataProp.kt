@@ -4,12 +4,7 @@ import com.group7.artshare.entity.*
 import com.group7.artshare.repository.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 
@@ -20,6 +15,9 @@ class DataProp {
 
     @Autowired
     lateinit var artItemInfoRepository: ArtItemInfoRepository
+
+    @Autowired
+    lateinit var commentRepository: CommentRepository
 
     @Autowired
     lateinit var artItemRepository: ArtItemRepository
@@ -92,7 +90,8 @@ class DataProp {
         comment3.createdAt = Calendar.getInstance().time
 
 
-        artItem1.commentList = mutableListOf(comment2, comment1)
+        artItem1.addComment(comment2)
+        artItem1.addComment(comment1)
         artItem1.lastPrice = 0.0
         artItem1.onAuction = false
         artItemInfo1.name = "Starry Night"
@@ -118,7 +117,7 @@ class DataProp {
         artist2.name = "Michael"
         artist2.surname = "Phelps"
         artItem2.creator = artist2
-        artItem2.commentList = mutableListOf(comment3)
+        artItem2.addComment(comment3)
         artItem2.lastPrice = 0.0
         artItem2.onAuction = false
         artItem2.owner = owner3
@@ -172,5 +171,26 @@ class DataProp {
     }
 
 
+    @PostMapping("/try/{id}")
+    fun d(@PathVariable("id") id: Long):Boolean{
+        var event = PhysicalExhibition()
+        var comment = Comment()
+        comment.body = "Demet's discussion body"
+        comment.author = registeredUserRepository.findById(id).get()
+        event.addComment(comment)
+        physicalExhibitionRepository.save(event)
+        return true
+    }
 
+    @PostMapping("deleteComment/{id}")
+    fun g(@PathVariable("id") id: Long) : Boolean {
+        commentRepository.deleteById(id)
+        return true
+    }
+
+    @PostMapping("deleteEvent/{id}")
+    fun f(@PathVariable("id") id: Long) : Boolean {
+        physicalExhibitionRepository.deleteById(id)
+        return true
+    }
 }

@@ -1,6 +1,8 @@
 package com.group7.artshare.entity
 
+import com.group7.artshare.repository.CommentRepository
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired
 import javax.persistence.*;
 
 import java.util.*;
@@ -8,7 +10,7 @@ import java.util.*;
 
 @Data
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+//@PrimaryKeyJoinColumn(name = "id")
 class PhysicalExhibition : Event(){
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
@@ -34,5 +36,19 @@ class PhysicalExhibition : Event(){
     )
     var bookmarkedBy: MutableSet<RegisteredUser> = mutableSetOf()
 
+    @OneToMany(orphanRemoval = true, mappedBy = "physicalExhibition", cascade = [CascadeType.ALL])
+    var commentList: MutableSet<Comment> = mutableSetOf()
+
+    fun addComment(comment:Comment){
+        comment.physicalExhibition = this
+        this.commentList.add(comment)
+    }
+
+    fun addComments(commentList : List<Comment>){
+        for(comment in commentList){
+            comment.physicalExhibition = this
+        }
+        this.commentList.addAll(commentList)
+    }
 
 }

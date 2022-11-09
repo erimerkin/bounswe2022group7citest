@@ -14,11 +14,11 @@ class ArtItem{
     var id: Long = 0L
 
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "artItemInfo", referencedColumnName = "id")
+    @JoinColumn(name = "artItemInfo")
     @JsonManagedReference
     var artItemInfo: ArtItemInfo? = null
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @ManyToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "creator")
     var creator: Artist? = null
 
@@ -26,24 +26,36 @@ class ArtItem{
     @Temporal(TemporalType.TIMESTAMP)
     var creationDate: Date = Calendar.getInstance().time
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @ManyToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "owner")
     var owner: RegisteredUser? = null
 
     @Column
     var onAuction: Boolean = false
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @ManyToOne(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "auction")
-    var auction: Auction? = null
+    var auction: Auction? = null //TODO: when Auction class is filled, the annotation will be arranged such that orphanremoval is false
 
     @Column
     var lastPrice: Double = 0.0;
 
-    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    var commentList: List<Comment> = ArrayList()
+    @OneToMany(orphanRemoval = true, mappedBy = "artItem", cascade = [CascadeType.ALL])
+    var commentList: MutableSet<Comment> = mutableSetOf()
 
     @ManyToMany(mappedBy = "bookmarkedArtItems",cascade = [CascadeType.ALL])
-    var bookmarkedBy: Set<RegisteredUser> = HashSet()
+    var bookmarkedBy: MutableSet<RegisteredUser> = mutableSetOf()
+
+    fun addComment(comment:Comment){
+        comment.artItem = this
+        this.commentList.add(comment)
+    }
+
+    fun addComments(commentList : List<Comment>){
+        for(comment in commentList){
+            comment.artItem = this
+        }
+        this.commentList.addAll(commentList)
+    }
 
 }

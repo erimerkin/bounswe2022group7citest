@@ -18,19 +18,15 @@ abstract class Event{
     @JoinColumn(name = "creator")
     var creator: Artist? = null
 
-    @OneToMany(orphanRemoval = true, cascade = [CascadeType.ALL])
+    @OneToMany(orphanRemoval = false)
     var collaborators: List<Artist> = ArrayList()
 
-    @OneToMany(orphanRemoval = true, cascade = [CascadeType.ALL])
+    @OneToMany(orphanRemoval = false)
     var participants: List<RegisteredUser> = ArrayList()
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     var creationDate: Date = Calendar.getInstance().time
-
-    @OneToMany(orphanRemoval = true, cascade = [CascadeType.ALL])
-    var commentList: List<Comment> = ArrayList()
-
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "eventInfoId")

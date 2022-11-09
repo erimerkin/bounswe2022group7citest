@@ -11,7 +11,7 @@ import javax.persistence.*
 class RegisteredUser(
 
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "accountInfo", referencedColumnName = "id")
+    @JoinColumn(name = "accountInfo")
     @JsonManagedReference
     var accountInfo: AccountInfo,
 
@@ -93,6 +93,9 @@ class RegisteredUser(
         inverseJoinColumns = [JoinColumn(name = "online_gallery_id")]
     )
     var bookmarkedOnlineGalleries: MutableSet<OnlineGallery> = mutableSetOf()
+
+    @OneToMany(orphanRemoval = true, mappedBy = "registeredUser", cascade = [CascadeType.ALL])
+    var ownedArtItemsList: MutableSet<ArtItem> = mutableSetOf()
 
 
     //TODO discussion post

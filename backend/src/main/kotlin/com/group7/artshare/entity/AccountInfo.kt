@@ -21,7 +21,7 @@ class AccountInfo(
     @GeneratedValue
     val id: Long = 0L
 
-    @OneToOne(mappedBy = "accountInfo", cascade = [CascadeType.ALL])
+    @OneToOne(mappedBy = "accountInfo", cascade = [CascadeType.PERSIST])
     @JsonBackReference
     var registeredUser: RegisteredUser? = null
 

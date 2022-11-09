@@ -7,7 +7,7 @@ import javax.persistence.*
 
 @Data
 @Entity
-@PrimaryKeyJoinColumn(name = "id")
+//@PrimaryKeyJoinColumn(name = "id")
 class OnlineGallery : Event(){
 
     
@@ -26,6 +26,18 @@ class OnlineGallery : Event(){
     //@ManyToMany(mappedBy = "bookmarkedOnlineGalleries",cascade = [CascadeType.ALL])
     //var bookmarkedBy: Set<RegisteredUser> = HashSet()
 
+    @OneToMany(orphanRemoval = true, mappedBy = "onlineGallery", cascade = [CascadeType.ALL])
+    var commentList: MutableSet<Comment> = mutableSetOf()
 
+    fun addComment(comment:Comment){
+        comment.onlineGallery = this
+        this.commentList.add(comment)
+    }
 
+    fun addComments(commentList : List<Comment>){
+        for(comment in commentList){
+            comment.onlineGallery = this
+        }
+        this.commentList.addAll(commentList)
+    }
 }

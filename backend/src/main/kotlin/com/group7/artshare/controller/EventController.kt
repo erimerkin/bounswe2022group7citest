@@ -1,15 +1,12 @@
 package com.group7.artshare.controller
 
+import com.group7.artshare.DTOs.EventDTO
 import com.group7.artshare.entity.*
 import com.group7.artshare.repository.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
 
@@ -37,5 +34,11 @@ class EventController {
         }
         else
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Id is not match with any of the events in the database")
+    }
+
+
+    @PostMapping(value = ["create-event"],  consumes=["application/json;charset=UTF-8"], produces = ["application/json;charset=UTF-8"])
+    fun createEvent(@RequestBody event: EventDTO) : List<OnlineGallery>{
+        return onlineGalleryRepository.findAllByIdIn(mutableListOf(1L,2L))
     }
 }

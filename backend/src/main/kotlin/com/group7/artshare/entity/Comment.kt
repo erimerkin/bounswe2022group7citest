@@ -1,13 +1,14 @@
 package com.group7.artshare.entity
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.*
 import lombok.Data
 import java.util.*
 import javax.persistence.*
 
 @Data
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator::class)
 class Comment {
 
     @Id
@@ -36,6 +37,6 @@ class Comment {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author")
-    @JsonBackReference
+    //@JsonBackReference
     var author : RegisteredUser? = null
 }

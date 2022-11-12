@@ -1,13 +1,14 @@
 package com.group7.artshare.entity
 
-import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.*
 import lombok.Data
 import javax.persistence.*
 
 
 @Data
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator::class)
 class Auction {
     @Id
     @GeneratedValue
@@ -15,11 +16,11 @@ class Auction {
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "auctionInfo", referencedColumnName = "id")
-    @JsonManagedReference
+    //@JsonManagedReference
     var auctionInfo: AuctionInfo? = null
 
     @OneToOne(mappedBy = "auction", cascade = [CascadeType.ALL])
-    @JsonBackReference
+    //@JsonBackReference(value = "auctioned-item")
     var itemOnSale: ArtItem? = null
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -59,6 +59,5 @@ public class EventControllerJava {
         artItem.setOwner(artItemDTO.getOwner());
         return artItemRepository.save(artItem);
     }
-
 }
 

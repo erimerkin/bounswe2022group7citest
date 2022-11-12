@@ -118,7 +118,7 @@ class DataProp {
         artItem2.lastPrice = 0.0
         artItem2.onAuction = false
         artItem2.owner = owner3
-        owner1.bookmarkedArtItems.add(artItem2)
+        //owner1.bookmarkedArtItems.add(artItem2)
         owner1.following.add(owner2)
 
         artItemList.add(artItem2)

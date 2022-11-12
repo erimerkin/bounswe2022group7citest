@@ -1,7 +1,6 @@
 package com.group7.artshare.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonManagedReference
+import com.fasterxml.jackson.annotation.*
 import lombok.Data
 import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
@@ -10,11 +9,13 @@ import javax.persistence.*
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIdentityInfo(property = "id", generator = ObjectIdGenerators.PropertyGenerator::class) //closed but artitem opened works
 open class RegisteredUser(
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "accountInfo", referencedColumnName = "id")
-    @JsonManagedReference
+    //@JsonManagedReference
     var accountInfo: AccountInfo,
 
     @JsonIgnore
@@ -61,6 +62,7 @@ open class RegisteredUser(
 
     @ManyToMany(mappedBy = "participants")
     var allEvents: MutableSet<Event> = mutableSetOf()
+/*
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
@@ -68,8 +70,9 @@ open class RegisteredUser(
         joinColumns = [JoinColumn(name = "user_id")],
         inverseJoinColumns = [JoinColumn(name = "art_item_id")]
     )
-    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerator::class)
     var bookmarkedArtItems: MutableSet<ArtItem> = mutableSetOf()
+*/
 
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
@@ -102,7 +105,7 @@ open class RegisteredUser(
     var currentBids: MutableList<Bid> = mutableListOf()
 
     @OneToMany(orphanRemoval = true, cascade = [CascadeType.ALL])
-    @JsonManagedReference
+    //@JsonManagedReference
     var commentList: MutableList<Comment> = mutableListOf()
 
     @JsonIgnore

@@ -8,6 +8,7 @@ import java.util.*
 import javax.persistence.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import lombok.ToString
 
 
 @Data
@@ -22,11 +23,14 @@ class ArtItem{
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "artItemInfo", referencedColumnName = "id")
+    @JsonIgnore
     //@JsonManagedReference(value = "info")
     var artItemInfo: ArtItemInfo? = null
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @ToString.Exclude
     @JoinColumn(name = "creator")
+    //@JsonIgnore
     //@JsonBackReference(value = "creator")
     var creator: Artist? = null
 
@@ -36,6 +40,7 @@ class ArtItem{
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name = "owner")
+    @JsonIgnore
     var owner: RegisteredUser? = null
 
     @Column
@@ -43,6 +48,7 @@ class ArtItem{
 
     @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "auction", referencedColumnName = "id")
+    //@JsonIgnore
     //@JsonManagedReference(value = "auctioned-item")
     var auction: Auction? = null
 
@@ -50,6 +56,7 @@ class ArtItem{
     var lastPrice: Double = 0.0;
 
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @JsonIgnore
     var commentList: MutableList<Comment> = mutableListOf()
 
 /*

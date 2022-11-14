@@ -51,9 +51,9 @@ jobs:
     - name: Build APK
       working-directory: ./android
       run: flutter build apk
-    - name: Build Appbundle
-      working-directory: ./android
-      run: flutter build appbundle
+#     - name: Build Appbundle
+#       working-directory: ./android
+#       run: flutter build appbundle
     - name: Upload the APK
       uses: softprops/action-gh-release@v1
       if: ${{ github.event_name == 'release' }}

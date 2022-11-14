@@ -36,7 +36,7 @@ jobs:
         java-version: '11'
     - uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.0.5'
+        flutter-version: '2.17.6'
     - name: Setup flutter dependencies
       working-directory: ./android
       run: flutter pub get

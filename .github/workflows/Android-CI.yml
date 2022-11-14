@@ -58,4 +58,4 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: ${{ github.event_name == 'release' }}
       with:
-          files: flutter-debug.apk
+          files: ./android/build/app/outputs/flutter-apkapp-debug.apk
